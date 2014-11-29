@@ -1,0 +1,107 @@
+
+<project name="ASExamples" default="jar-all" basedir=".">
+
+    <property environment="env" />
+    
+    <target name="jar-all" depends="clean-all,jar-jdbc,jar-ex"
+        description="Builds as-jdbcdriver.jar and ExamplesJDBC.jar">
+    </target>
+    
+    <target name="init">
+        <condition property="ASHomeNotDefined">
+            <equals arg1="${env.AS_HOME}" arg2="$${env.AS_HOME}"/>
+        </condition>
+        <fail message="AS_HOME is not defined" if="ASHomeNotDefined" />
+        <property name="as-lib" value="${env.AS_HOME}/lib"/>
+    </target>
+
+    <target name="ant-init">
+        <condition property="ANTHomeNotDefined">
+            <equals arg1="${env.ANT_HOME}" arg2="$${env.ANT_HOME}"/>
+        </condition>
+        <fail message="ANT_HOME is not defined" if="ANTHomeNotDefined" />
+        <property name="ant-lib" value="${env.ANT_HOME}/lib"/>
+    </target>
+    
+    <target name="compile-jdbc" depends="clean-jdbc,init">
+        <mkdir dir="build"/>
+	    <javac srcdir="src" destdir="build" deprecation="off">
+	        <include name="com/tibco/as/**" />
+	        <classpath>
+	            <pathelement path="${as-lib}/as-common.jar" />
+	            <pathelement path="${as-lib}/antlr-3.2.jar" />
+	        </classpath >
+	    </javac>
+    </target>
+    
+    <target name="jar-jdbc" depends="compile-jdbc"
+        description="Builds as-jdbcdriver.jar from the source files in JDBCDriver/src">
+	    <jar destfile="as-jdbcdriver.jar">
+	        <fileset dir="build" />
+	    </jar>
+	    <delete dir="build" />
+    </target>
+    
+    <target name="compile-ex" depends="clean-ex,init">
+        <mkdir dir="build"/>
+	    <javac srcdir="examples" destdir="build" deprecation="off">
+	        <classpath>
+	            <pathelement path="${as-lib}/as-common.jar" />
+	            <pathelement path="./as-jdbcdriver.jar" />
+	        </classpath >
+	    </javac>
+    </target>
+    
+    <target name="jar-ex" depends="compile-ex"
+        description="Builds ExamplesJDBC.jar from the source files in JDBCDriver/examples">
+	    <jar destfile="ExamplesJDBC.jar">
+	        <fileset dir="build" />
+	    </jar>
+	    <delete dir="build" />
+    </target>
+    
+    <target name="grammar" depends="init,ant-init"
+        description="Generates the JDBC driver grammar files">
+        <mkdir dir="grammar" />
+        <copy file="src/com/tibco/as/sql/grammar/ASSQL.g" toDir="grammar" />
+        
+        <antlr:ant-antlr3 xmlns:antlr="antlib:org/apache/tools/ant/antlr"
+            target="grammar/ASSQL.g"
+            outputdirectory="grammar" multithreaded="true" report="true">
+            <classpath>
+                <pathelement location="${as-lib}/antlr-3.2.jar" />
+                <pathelement location="${ant-lib}/ant-antlr3.jar" />
+            </classpath>
+        </antlr:ant-antlr3>
+        
+        <copy toDir="src/com/tibco/as/sql/grammar/">
+            <fileset dir="grammar">
+                <include name="**.java" />
+            </fileset>
+        </copy>
+        
+        <delete dir="grammar" />
+    </target>
+
+    <target name="clean-jdbc">
+	    <delete dir="build" />
+	    <delete file="as-jdbcdriver.jar" />
+    </target>
+    
+    <target name="clean-ex">
+		<delete dir="build" />
+		<delete file="ExamplesJDBC.jar" />
+    </target>
+
+    <target name="clean-all" depends="clean-jdbc,clean-ex"
+	    description="Removes all generated artifacts">
+	</target>
+	
+	<target name="copy-all" depends="jar-all"
+		description="Copies the generated jar files to ${as-lib}">
+		<copy todir="${env.AS_HOME}\lib">
+		    <fileset dir="${basedir}" includes="as-jdbcdriver.jar" />
+			<fileset dir="${basedir}" includes="ExamplesJDBC.jar" />
+        </copy>
+	</target>
+</project>
