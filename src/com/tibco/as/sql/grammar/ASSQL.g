@@ -246,10 +246,16 @@ relation returns [String arg]
     | c=relation_null {$arg = $c.arg;}
     | d=relation_not {$arg = $d.arg;}
     | e=relation_in {$arg = $e.arg;}
+    | f=relation_like {$arg = $f.arg;}
     ;
 
 relation_in returns [String arg]
     : rterm IN OParen rterm_list CParen { $arg = $rterm.text + " IN (" + $rterm_list.text + ")"; }
+    ;
+
+relation_like returns [String arg]
+    : a=rterm_identifier LIKE b=QuotedString {$arg = $a.text + " LIKE " + $b.text;}
+    | c=rterm_identifier NOT LIKE d=QuotedString {$arg = $c.text + " NOT LIKE " + $d.text;}
     ;
 
 relation_null returns [String arg]
@@ -610,6 +616,7 @@ IN           : I N;
 INDEX        : I N D E X;
 INTEGER      : I N T E G E R;
 INTO         : I N T O;
+LIKE         : L I K E;
 LONGVARCHAR  : L O N G V A R C H A R;
 MODULE       : M O D U L E;
 NOT          : N O T;

@@ -1,5 +1,5 @@
 // -------------------------------------------------------------------
-//  Copyright (c) 2012-2014 TIBCO Software, Inc.
+//  Copyright (c) 2012-2015 TIBCO Software, Inc.
 //  All rights reserved.
 //  For more information, please contact:
 //  TIBCO Software Inc., Palo Alto, California, USA
@@ -43,18 +43,19 @@ import com.tibco.as.space.Tuple;
  * <ol>
  * <li>Ensure that the Java JDK bin directory is in your path.</li>
  * <li>Ensure that the Ant bin directory is in your path.</li>
- * <li>Change directory up one level and type 'ant'. The jar files as-jdbcdriver.jar and
+ * <li>Change directory up one level (to AS_HOME/examples/java/JDBCDriver) and type 'ant'. The jar files as-jdbcdriver.jar and
  * ExamplesJDBC.jar will be built.</li>
  * </ol>
  *
  * To run this example, you should ensure that your environment variables have been set up for
- * running ActiveSpaces as discussed in 'Chapter 2 Setting Environment Variables' of the document
- * 'TIBCO ActiveSpaces Installation'. To run this example, you must have the following ActiveSpaces
- * jar files in your classpath:
+ * running ActiveSpaces as discussed under Post-Installation Tasks, Setting Environment Variables
+ * of the TIBCO ActiveSpaces Installation document.
+ * To run this example, you must have the following ActiveSpaces jar files in your classpath:
  * <ul>
  * <li>as-common.jar - ActiveSpaces Java API</li>
  * <li>as-jdbcdriver.jar - ActiveSpaces JDBC Driver</li>
  * <li>antlr-3.2.jar - ANTLR is used by the driver to parse SQL command strings</li>
+ * <li>ExamplesJDBC.jar - Contains the examples for the ActiveSpaces JDBC Driver</li>
  * </ul>
  *
  * This example will show you how you can join a space as a SEEDER and then update the data in the

@@ -1,9 +1,10 @@
 // -------------------------------------------------------------------
-//  Copyright (c) 2012-2014 TIBCO Software, Inc.
+//  Copyright (c) 2014-2015 TIBCO Software, Inc.
 //  All rights reserved.
 //  For more information, please contact:
 //  TIBCO Software Inc., Palo Alto, California, USA
 // -------------------------------------------------------------------
+
 package com.tibco.as.sql;
 
 import java.text.DateFormat;
@@ -301,19 +302,6 @@ public class TupleUtil
                     }
                     catch (ParseException ex)
                     {
-                        // try parsing the string with java.sql.Date format yyyy-mm-dd
-                        dformat = new SimpleDateFormat("yyyy-MM-dd");
-                    }
-                }
-                if (!found)
-                {
-                    try
-                    {
-                        date = dformat.parse(dateStr);
-                        found = true;
-                    }
-                    catch (ParseException ex)
-                    {
                         // try parsing the string with default java.util.Date format dow mon dd hh:mm:ss zzz yyyy
                         dformat = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy");
                     }
@@ -341,7 +329,8 @@ public class TupleUtil
                     }
                     catch (ParseException ex)
                     {
-                        dformat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+                        // try parsing the string with time zone added
+                        dformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:sszzz");
                     }
                 }
                 if (!found)
@@ -366,8 +355,35 @@ public class TupleUtil
                     }
                     catch (ParseException ex)
                     {
-                        // try parsing the string with time zone added
-                        dformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:sszzz");
+                        dformat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+                    }
+                }
+                if (!found)
+                {
+                    try
+                    {
+                        date = dformat.parse(dateStr);
+                        found = true;
+                    }
+                    catch (ParseException ex)
+                    {
+                        // try parsing the string with how AS formats DateTime strings for GMT
+                        dformat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'GMT'");
+                        dformat.setTimeZone(TimeZone.getTimeZone("GMT"));
+                    }
+                }
+                if (!found)
+                {
+                    try
+                    {
+                        date = dformat.parse(dateStr);
+                        found = true;
+                    }
+                    catch (ParseException ex)
+                    {
+                        // try parsing the string with how AS formats DateTime strings for GMT
+                        dformat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'GMT'");
+                        dformat.setTimeZone(TimeZone.getTimeZone("GMT"));
                     }
                 }
                 if (!found)
@@ -392,9 +408,10 @@ public class TupleUtil
                     }
                     catch (ParseException ex)
                     {
-                        // try parsing the string with how AS formats DateTime strings for GMT
-                        dformat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'GMT'");
-                        dformat.setTimeZone(TimeZone.getTimeZone("GMT"));
+                        // lastly try parsing the string with java.sql.Date format yyyy-mm-dd
+                        // do this last as if a date which matches this format is at the
+                        // beginning of the string we will get a match
+                        dformat = new SimpleDateFormat("yyyy-MM-dd");
                     }
                 }
                 if (!found)

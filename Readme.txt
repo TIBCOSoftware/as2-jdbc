@@ -1,11 +1,16 @@
 
-                TIBCO ActiveSpaces JDBC Driver               Last Updated: 2014-10-15
+                TIBCO ActiveSpaces JDBC Driver               Last Updated: 2015-05-15
 
 Overview
 --------
-The TIBCO ActiveSpaces JDBC Driver provides Java applications with the ability to interact with ActiveSpaces through the use of SQL commands. The driver can be used to port existing applications, which already use a JDBC driver to interact with a database, to TIBCO ActiveSpaces. The TIBCO ActiveSpaces JDBC Driver can also facilitate the use of TIBCO ActiveSpaces by those users who are familiar with the use of JDBC drivers by reducing their learning curve.
+The TIBCO ActiveSpaces JDBC Driver provides Java applications with the ability to interact with
+ActiveSpaces through the use of SQL commands. The driver can be used to port existing applications,
+which already use a JDBC driver to interact with a database, to TIBCO ActiveSpaces. The
+TIBCO ActiveSpaces JDBC Driver can also facilitate the use of TIBCO ActiveSpaces by those users
+who are familiar with the use of JDBC drivers by reducing their learning curve.
 
-This is a partial implementation of a JDBC driver for TIBCO ActiveSpaces. The driver has been developed to support the following SQL commands:
+This is a partial implementation of a JDBC driver for TIBCO ActiveSpaces. The driver has
+been developed to support the following SQL commands:
 
     - CREATE TABLE
     - INSERT
@@ -13,16 +18,32 @@ This is a partial implementation of a JDBC driver for TIBCO ActiveSpaces. The dr
     - DELETE
     - SELECT
 
-It is important to note that in some cases only partial support for a command has been implemented.  This is especially true for the SELECT command. See the sections for each command below for a description of what has or has not been implemented.
+It is important to note that in some cases only partial support for a command has been implemented.
+This is especially true for the SELECT command. See the sections for each command below
+for a description of what has or has not been implemented.
 
-The TIBCO ActiveSpaces JDBC Driver is designed to be a layer that sits on top of existing TIBCO ActiveSpaces software and utilizes the Java API of TIBCO ActiveSpaces. This design requires the ActiveSpaces software to be installed on each machine running processes which utilize the TIBCO ActiveSpaces JDBC Driver.  Since TIBCO ActiveSpaces is also designed so that each machine running a TIBCO ActiveSpaces application requires TIBCO ActiveSpaces software to be installed, there was no need to design a JDBC driver which communicates to TIBCO ActiveSpaces using a network protocol (JDBC Type 3 driver). Since TIBCO ActiveSpaces does not really have a specific database protocol, it also did not make sense to implement a JDBC Type 4 driver.
+The TIBCO ActiveSpaces JDBC Driver is designed to be a layer that sits on top of existing TIBCO
+ActiveSpaces software and utilizes the Java API of TIBCO ActiveSpaces. This design requires the
+ActiveSpaces software to be installed on each machine running processes which utilize the TIBCO
+ActiveSpaces JDBC Driver.  Since TIBCO ActiveSpaces is also designed so that each machine running
+a TIBCO ActiveSpaces application requires TIBCO ActiveSpaces software to be installed, there was
+no need to design a JDBC driver which communicates to TIBCO ActiveSpaces using a network
+protocol (JDBC Type 3 driver). Since TIBCO ActiveSpaces does not really have a specific database
+protocol, it also did not make sense to implement a JDBC Type 4 driver.
 
 
 SQL Syntax Support
 ------------------
-The ActiveSpaces JDBC Driver has been developed to support common SQL syntax but the syntax has been simplified and customized for ActiveSpaces. It is *not* intended that the TIBCO ActiveSpaces JDBC Driver should be a JDBC Driver "adapter" for other databases. Therefore, in some cases the SQL syntax recognized by other databases may not be recognized by the ActiveSpaces JDBC driver. Currently, the ActiveSpaces JDBC Driver really only supports basic SQL command functionality.
+The ActiveSpaces JDBC Driver has been developed to support common SQL syntax but the syntax has 
+been simplified and customized for ActiveSpaces. It is *not* intended that the TIBCO ActiveSpaces 
+JDBC Driver should be a JDBC Driver "adapter" for other databases. Therefore, in some cases the SQL
+syntax recognized by other databases may not be recognized by the ActiveSpaces JDBC driver. Currently,
+the ActiveSpaces JDBC Driver really only supports basic SQL command functionality.
 
-The ActiveSpaces JDBC driver provides additional syntax support for cases where a normal SQL command does not provide adequate functionality for ActiveSpaces. For example, the syntax of the CREATE TABLE command has been extended to accept additional parameters which provide full support for defining an ActiveSpaces space.
+The ActiveSpaces JDBC driver provides additional syntax support for cases where a normal SQL command 
+does not provide adequate functionality for ActiveSpaces. For example, the syntax of the CREATE TABLE 
+command has been extended to accept additional parameters which provide full support for defining an 
+ActiveSpaces space.
 
 The ActiveSpaces JDBC Driver does not support the following (this is a partial list):
 
@@ -30,7 +51,8 @@ The ActiveSpaces JDBC Driver does not support the following (this is a partial l
     - Modules
     - Unicode String & Identifiers
 
-See the sections on the individual commands for information about the limitations of a particular command.
+See the sections on the individual commands for information about the limitations of a particular
+command.
 
 
 JDBC Driver Implemenation Directories
@@ -39,28 +61,46 @@ The TIBCO ActiveSpaces JDBC Driver sources reside in several directories as desc
 
     src/com/tibco/as/jdbc - Contains the classes which implement the Java JDBC interfaces.
     
-    src/com/tibco/as/sql/grammar - Contains the ANTLR grammar and the files automatically generated by ANTLR which are used to parse SQL commands passed to the JDBC driver.
+    src/com/tibco/as/sql/grammar - Contains the ANTLR grammar and the files automatically 
+        generated by ANTLR which are used to parse SQL commands passed to the JDBC driver.
     
-    src/com/tibco/as/sql - Contains the classes which actually process the SQL commands by making the appropriate calls into ActiveSpaces. The methods of the class ASSQLProcessor are invoked to cause the processing of each SQL command to occur.
+    src/com/tibco/as/sql - Contains the classes which actually process the SQL commands by 
+        making the appropriate calls into ActiveSpaces. The methods of the class ASSQLProcessor
+        are invoked to cause the processing of each SQL command to occur.
     
-    examples - Contain several examples which are intended to help learn about using the TIBCO ActiveSpaces JDBC Driver.
+    examples - Contain several examples which are intended to help learn about using the
+        TIBCO ActiveSpaces JDBC Driver.
 
 
 Getting Started
 ---------------
-Several examples are provided with the TIBCO ActiveSpaces JDBC Driver which are intended to help teach you how to use the driver in different scenarios as follows:
+Several examples are provided with the TIBCO ActiveSpaces JDBC Driver which are intended to help
+teach you how to use the driver in different scenarios as follows:
 
-    - SimpleJDBC uses the TIBCO ActiveSpaces JDBC Driver to interact with ActiveSpaces using SQL commands.
+    - SimpleJDBC uses the TIBCO ActiveSpaces JDBC Driver to interact with ActiveSpaces using
+      SQL commands.
       
-    - MixedASJdbc combines the use of the TIBCO ActiveSpaces Java API with the use of the JDBC driver.  The TIBCO ActiveSpaces Java API is first used to define and connect to a metaspace and space.  Then the JDBC driver is used after that to manipulate the data in the space.
+    - MixedASJdbc combines the use of the TIBCO ActiveSpaces Java API with the use of the JDBC driver.
+      The TIBCO ActiveSpaces Java API is first used to define and connect to a metaspace and space.
+      Then the JDBC driver is used after that to manipulate the data in the space.
       
-    - MixedJdbcAS also combines the use of the TIBCO ActiveSpaces Java API with the use of the JDBC driver. However, in this example the JDBC driver is used to first define and connect to a metaspace and space and then the TIBCO ActiveSpaces Java API is used to manipulate the data in the space.
+    - MixedJdbcAS also combines the use of the TIBCO ActiveSpaces Java API with the use of the
+      JDBC driver. However, in this example the JDBC driver is used to first define and connect to
+      a metaspace and space and then the TIBCO ActiveSpaces Java API is used to manipulate the
+      data in the space.
 
-It is recommended that you start with the example SimpleJDBC. The comments in the example will walk you through setting up your environment, building the driver and the example, and then running the example. The comments throughout the code try to explain what is going on and things you need to pay attention to. However, the comments do not attempt to rewrite the TIBCO ActiveSpaces Developer's Guide. For information on the TIBCO ActiveSpaces objects and the Java API, you should read the developer's guide and the JavaDoc for the API.
+It is recommended that you start with the example SimpleJDBC. The comments in the example will 
+walk you through setting up your environment, building the driver and the example, and then
+running the example. The comments throughout the code try to explain what is going on and things
+you need to pay attention to. However, the comments do not attempt to rewrite the TIBCO ActiveSpaces
+Developer's Guide. For information on the TIBCO ActiveSpaces objects and the Java API, you should read
+the developer's guide and the JavaDoc for the API.
 
-Both of the 'mixed' examples point out important things about how to use the TIBCO ActiveSpaces JDBC Driver with the TIBCO ActiveSpaces Java API. Read the comments in the code!
+Both of the 'mixed' examples point out important things about how to use the TIBCO ActiveSpaces
+JDBC Driver with the TIBCO ActiveSpaces Java API. Read the comments in the code!
 
-Note: If you get a Java Verify Error when running the examples, you will need to specify the following VM argument to get past the error:
+Note: If you get a Java Verify Error when running the examples, you will need to specify the
+following VM argument to get past the error:
     -XX:-UseSplitVerifier
 
 
@@ -69,21 +109,30 @@ JDBC URL
 The standard syntax for JDBC URLs is:
     jdbc:<subprotocol>:<subname>    
 where:
-    subprotocol is the name of the driver or the name of a database connectivity mechanism subname is a way to identify the data source 
+    subprotocol is the name of the driver or the name of a database connectivity mechanism
+    subname is a way to identify the data source 
     
-The ActiveSpaces JDBC URL has been extended from the standard JDBC URL syntax to provide users the ability to specify the various settings for connecting to an ActiveSpaces metaspace.  The ActiveSpaces JDBC URL format is:
+The ActiveSpaces JDBC URL has been extended from the standard JDBC URL syntax to provide users the ability
+to specify the various settings for connecting to an ActiveSpaces metaspace.  The ActiveSpaces JDBC URL format
+is:
 
     jdbc:tibco:as[:<data-source-name>][;<propertyName>=<propertyValue>]*
     
-The <data-source-name> is optional and specifies the metaspace name. The metaspace name can also be specified as a property as in the following example URL:
+The <data-source-name> is optional and specifies the metaspace name. The metaspace name can also be specified
+as a property as in the following example URL:
 
     jdbc:tibco:as;metaspace=mymetaspace
     
-If the metaspace name is not specified as a property or as <data-source-name>, the default metaspace name of 'ms' is used.
+If the metaspace name is not specified as a property or as <data-source-name>, the default metaspace name of 'ms'
+is used.
 
-This format for the JDBC URL for ActiveSpaces was chosen because it is similar to the formats used by the MySQL, Microsoft SQL Server and the Oracle Thin Client JDBC URLs.
+This format for the JDBC URL for ActiveSpaces was chosen because it is similar to the formats used by the MySQL,
+Microsoft SQL Server and the Oracle Thin Client JDBC URLs.
 
-The following lists the possible properties which can be set for a metaspace. Of these properties, the metaspace property and the discovery property must be identical for all applications trying to connect to the same metaspace.  A new metaspace is created for any application which uses a different metaspace or discovery property setting than other applications.
+The following lists the possible properties which can be set for a metaspace. Of these properties, the metaspace
+property and the discovery property must be identical for all applications trying to connect to the same metaspace. 
+A new metaspace is created for any application which uses a different metaspace or discovery property setting than
+other applications.
 
     Property               Description
     ---------              ------------
@@ -95,20 +144,24 @@ The following lists the possible properties which can be set for a metaspace. Of
                            Format: tcp://[interface[:port]]  (default:  0.0.0.0 for the interface and the first port available
                            starting from port 5000 and above.)
     remote_listen          The URL to use to listen for remote client connections (optional).
-    remote_discovery       Discovery URL for connecting to a metaspace as a remote client. However, it is preferred that the discovery URL property be used to specify the remote discovery URL as in
+    remote_discovery       Discovery URL for connecting to a metaspace as a remote client. However, it is preferred that the
+                           discovery URL property be used to specify the remote discovery URL as in
                            ‘discovery=tcp://IP:port?remote=true’. (optional)
     transport_thread_count The number of threads a metaspace member can use for handling remote invocation calls.
 
-Although ActiveSpaces only allows one metaspace connection by a single application, the JDBC driver will allow you to use multiple Connection objects to the same metaspace within a single application.
+Although ActiveSpaces only allows one metaspace connection by a single application, the JDBC driver will allow you to
+use multiple Connection objects to the same metaspace within a single application.
 
-Note: When security is integrated with the ActiveSpaces JDBC Driver, properties for the user name and password can be added to the supported properties. For example:
+Note: When security is integrated with the ActiveSpaces JDBC Driver, properties for the user name and password can be added
+to the supported properties. For example:
     jdbc:tibco:as:mymetaspace;discovery=tibpgm://6789;user=yourUser;password=yourPassword
 This is similar to how user names and passwords are specified in the Microsoft SQL Server JDBC URL.
 
 
 ANTLR Grammar
 -------------
-An ANTLR grammar is used to parse the SQL query strings passed to the ActiveSpaces JDBC Driver. The grammar file is com/tibco/as/sql/grammar/ASSQL.g. Three files are automatically generated by ANTLR for this grammar. They are:
+An ANTLR grammar is used to parse the SQL query strings passed to the ActiveSpaces JDBC Driver. The grammar file is 
+com/tibco/as/sql/grammar/ASSQL.g. Three files are automatically generated by ANTLR for this grammar. They are:
 
     ASSQLLexer.java
     ASSQLParser.java
@@ -116,12 +169,22 @@ An ANTLR grammar is used to parse the SQL query strings passed to the ActiveSpac
     
 Only the grammar file should ever be modified. These three files generated by ANTLR should never be directly modified.
 
-The ASSQL.g grammar file is written to use Java. Since JDBC is Java based, there is no reason to expect that any other language would need to be supported. Inside of the grammar, the appropriate Java class is created to handle each different supported SQL command. It was felt that embedding the Java code inside of the grammar would be easier to understand for those users who do not understand ANTLR.
+The ASSQL.g grammar file is written to use Java. Since JDBC is Java based, there is no reason to expect that any other
+language would need to be supported. Inside of the grammar, the appropriate Java class is created to handle each different
+supported SQL command. It was felt that embedding the Java code inside of the grammar would be easier to understand for those
+users who do not understand ANTLR.
 
-Sometimes the driver's grammar allows an SQL command but portions of the command syntax are ignored by the driver implementation. The idea in developing the grammar for this driver was to allow common SQL syntax even though full support for the command may not have been implemented in the driver.  For example, the following command is successfully parsed by the driver even though support for LIMIT and OFFSET has not been implemented:
+Sometimes the driver's grammar allows an SQL command but portions of the command syntax are
+ignored by the driver implementation. The idea in developing the grammar for this driver was to allow
+common SQL syntax even though full support for the command may not have been implemented in the driver.
+For example, the following command is successfully parsed by the driver even though support for
+LIMIT and OFFSET has not been implemented:
     SELECT * FROM mytable LIMIT 100 OFFSET 0
 
-Important!! SQL WHERE clauses are not fully supported. Currently the WHERE clause is used, in its entirety, as an ActiveSpaces filter. However, the grammar still needs work to completely support the successful parsing of all possible filter formats. Only simple filters are currently supported such as:
+Important!! SQL WHERE clauses are not fully supported. Currently the WHERE clause is used, in its
+entirety, as an ActiveSpaces filter. However, the grammar still needs work to completely support
+the successful parsing of all possible filter formats. Only simple filters are currently
+supported such as:
     key=value
     name='Joe Smith'  (Note, the driver converts SQL single quotes to the double-quotes used by filters.)
     age>50
@@ -131,6 +194,7 @@ Important!! SQL WHERE clauses are not fully supported. Currently the WHERE claus
     name = 'John'' Doe' or (income > 50150.50 and age > 0)
     city is not null
     where city is null
+    where city like 'View'
 
 
 Building the ANTLR Grammar
@@ -172,14 +236,17 @@ For example:
 
     INSERT INTO mytable (column1, column2) VALUES (‘George’, ‘Washington’)
     
-When you need to use a table name or column name that matches an SQL keyword, you should enclose the name in escaped double-quotes to allow the ANTLR parser to differentiate between the keyword and the name. For example:
+When you need to use a table name or column name that matches an SQL keyword, you should enclose the name in escaped
+double-quotes to allow the ANTLR parser to differentiate between the keyword and the name. For example:
 
     CREATE TABLE myspace (\"key\" INTEGER NOT NULL, value VARCHAR, \"time\" DATETIME, PRIMARY KEY (\"key\"))
 
 
 CREATE TABLE Basic Syntax
 -------------------------
-CREATE TABLE is used to define a TIBCO ActiveSpaces space, which is the equivalent of a database table.  Since an ActiveSpaces space is defined using specific space properties other than the normal field definitions of a database table, the CREATE TABLE syntax has been extended to allow users to specify space properties.
+CREATE TABLE is used to define a TIBCO ActiveSpaces space, which is the equivalent of a database table.
+Since an ActiveSpaces space is defined using specific space properties other than the normal field definitions
+of a database table, the CREATE TABLE syntax has been extended to allow users to specify space properties.
 
 Basic Syntax:
 
@@ -205,11 +272,18 @@ Example:
     
 Notes:
 
-CONSTRAINT Identifier is ignored, if specified, but is allowed by the grammar in order to be compatible with other common SQL syntax variations.
+CONSTRAINT Identifier is ignored, if specified, but is allowed by the grammar in order to be compatible with other 
+common SQL syntax variations.
 
-<key_type> is an ActiveSpaces extension to allow the setting of the type of index to generate.  For key fields, ActiveSpaces by default will automatically generate an index of type HASH which speeds up queries where the filter is an exact match (‘=’ operator). Regular indexes are created with a default index type of TREE. TREE indexes speed up queries where the filter is a range match (‘>’, ‘<’, ‘>=’, ‘<=’ operators). The <key_type> extension allows you to control which type of index is created to suit your particular needs. 
+<key_type> is an ActiveSpaces extension to allow the setting of the type of index to generate.  For key fields, 
+ActiveSpaces by default will automatically generate an index of type HASH which speeds up queries where the filter 
+is an exact match (‘=’ operator). Regular indexes are created with a default index type of TREE. TREE indexes speed
+up queries where the filter is a range match (‘>’, ‘<’, ‘>=’, ‘<=’ operators). The <key_type> extension allows you
+to control which type of index is created to suit your particular needs. 
 
-Columns in a table are the equivalent of ActiveSpaces fields in a space. ActiveSpaces does not support all of the SQL column types for the fields in a space.  The following table shows how the SQL column types are mapped to what ActiveSpaces supports for field types:
+Columns in a table are the equivalent of ActiveSpaces fields in a space. ActiveSpaces does not support all of the
+SQL column types for the fields in a space.  The following table shows how the SQL column types are mapped to what
+ActiveSpaces supports for field types:
 
     SQL Column Type        ActiveSpaces Field Data Type
     ---------------        ----------------------------
@@ -233,14 +307,20 @@ Columns in a table are the equivalent of ActiveSpaces fields in a space. ActiveS
 
 Note: Currently support for BLOB has not been implemented.
 
-When the type of a column is retrieved from the ResultSetMetaData object, for those SQL columns which map to the same ActiveSpaces field data type, the SQL column type listed first in the table is the type that will be returned. For example, calling ResultSetMetaData.getColumnType for a column which was defined as SQL column type TIME, will result in the SQL column type of DATE being returned. And if a column was defined as SQL column type CHAR(255), the SQL column type returned from ResultSetMetaData.getColumnType will be VARCHAR.
+When the type of a column is retrieved from the ResultSetMetaData object, for those SQL columns which map to the same
+ActiveSpaces field data type, the SQL column type listed first in the table is the type that will be returned. For example,
+calling ResultSetMetaData.getColumnType for a column which was defined as SQL column type TIME, will result in the SQL
+column type of DATE being returned. And if a column was defined as SQL column type CHAR(255), the SQL column type returned
+from ResultSetMetaData.getColumnType will be VARCHAR.
 
-The implementation of an ActiveSpaces field type may be different from the SQL column type. For an explanation of each of the ActiveSpaces field types, see the ActiveSpaces documentation. 
+The implementation of an ActiveSpaces field type may be different from the SQL column type. For an explanation of each of
+the ActiveSpaces field types, see the ActiveSpaces documentation. 
 
 
 CREATE TABLE Extended Syntax
 ----------------------------
-An extended form of the CREATE TABLE syntax is available which additionally allows setting the properties of a space.  If not specified, the normal ActiveSpaces default for these properties will be used.
+An extended form of the CREATE TABLE syntax is available which additionally allows setting the properties of a space.
+If not specified, the normal ActiveSpaces default for these properties will be used.
 
 Extended Syntax:
 
@@ -306,7 +386,13 @@ Example:
     UPDATE mytable SET age=80 WHERE name = ‘George Washington’
     
 Notes:
-If a <where_condition> is not specified, all entries in the table will be updated.  Currently the <where_condition> is not parsed but is used in its entirety as a filter for browsing the space entries.  Therefore, the <where_condition> cannot handle things like embedded SELECT queries and must be specified in such a way that ActiveSpaces will be able to properly use it as a filter. See the ActiveSpaces documentation for information on how to format filter strings. The one exception for specifying a where clause is that the value for strings should be specified with single qutoes to follow SQL syntax rules as opposed to double quotes which is the normal ActiveSpaces filter syntax rule.
+If a <where_condition> is not specified, all entries in the table will be updated.
+Currently the <where_condition> is not parsed but is used in its entirety as a filter for browsing the space entries.
+Therefore, the <where_condition> cannot handle things like embedded SELECT queries and must be specified in such a way
+that ActiveSpaces will be able to properly use it as a filter. See the ActiveSpaces documentation for information on
+how to format filter strings. The one exception for specifying a where clause is that the value for strings should be
+specified with single qutoes to follow SQL syntax rules as opposed to double quotes which is the normal ActiveSpaces
+filter syntax rule.
 
 
 DELETE Command
@@ -322,7 +408,12 @@ Example:
     DELETE FROM mytable WHERE name = 'Joe Smith'
     
 Notes:
-If a <where_condition> is not specified, all entries in the table will be deleted.  Currently the <where_condition> is not parsed but is used in its entirety as a filter for browsing the space entries.  Therefore, the <where_condition> cannot handle things like embedded SELECT queries and must be specified in such a way that ActiveSpaces will be able to properly use it as a filter. See the ActiveSpaces documentation for information on how to format filter strings. The one exception for specifying a where clause is that the value for strings should be specified with single qutoes to follow SQL syntax rules as opposed to double quotes which is the normal ActiveSpaces filter syntax rule.
+If a <where_condition> is not specified, all entries in the table will be deleted.
+Currently the <where_condition> is not parsed but is used in its entirety as a filter for browsing the space entries.
+Therefore, the <where_condition> cannot handle things like embedded SELECT queries and must be specified in such a way
+that ActiveSpaces will be able to properly use it as a filter. See the ActiveSpaces documentation for information on how
+to format filter strings. The one exception for specifying a where clause is that the value for strings should be specified
+with single qutoes to follow SQL syntax rules as opposed to double quotes which is the normal ActiveSpaces filter syntax rule.
 
 
 SELECT Command
@@ -356,14 +447,22 @@ Examples:
     SELECT table1.name AS table1name, table2.address AS table2address FROM table1, table2  (results of select statement are retrieved from the ResultSet object using the specified column alias names)
     
 Notes:
-  When multiple FROM tables are listed, the dot notation for specifying the columns to retrieve is required even if a column is only present in one of the tables.
+  When multiple FROM tables are listed, the dot notation for specifying the columns to retrieve is required even if a column is
+  only present in one of the tables.
   
   If a <where_condition> is not specified, all entries in the table will be selected.
   
-  Currently the <where_condition> is not parsed but is used in its entirety as a filter for browsing the space entries. Therefore, the <where_condition> cannot handle things like embedded SELECT queries and must be specified in such a way that ActiveSpaces will be able to properly use it as a filter. See the ActiveSpaces documentation for information on how to format filter strings.  The following are a couple of exceptions to keep in mind:
-    The value for strings should be specified with single quotes to follow SQL syntax rules as opposed to double quotes which is the normal ActiveSpaces filter syntax rule. The JDBC driver grammar takes care of coverting the single quotes to double quotes for you.
+  Currently the <where_condition> is not parsed but is used in its entirety as a filter for browsing the space entries. Therefore,
+  the <where_condition> cannot handle things like embedded SELECT queries and must be specified in such a way that ActiveSpaces
+  will be able to properly use it as a filter. See the ActiveSpaces documentation for information on how to format filter strings.
+  The following are a couple of exceptions to keep in mind:
+    The value for strings should be specified with single quotes to follow SQL syntax rules as opposed to double quotes which
+    is the normal ActiveSpaces filter syntax rule. The JDBC driver grammar takes care of coverting the single quotes to double
+    quotes for you.
     
-    The value for DateTime fields should be specified without any single or double quotes. The JDBC driver grammar takes care of converting the DateTime value to have single quotes as is required by ActiveSpaces filters. The format for DateTime field values are:
+    The value for DateTime fields should be specified without any single or double quotes. The JDBC driver grammar takes care
+    of converting the DateTime value to have single quotes as is required by ActiveSpaces filters. The format for DateTime
+    field values are:
         YYYY-MM-DD
         HH:MM:SS[.MS] [GMT]
         YYYY-MM-DDTHH:MM:SS[.MS] [GMT]
@@ -371,7 +470,8 @@ Notes:
 
 Limiting The Number of SELECT Results
 -------------------------------------
-By default, the AS JDBC driver will use an ActiveSpaces SNAPSHOT browser for retrieving data from a space/table when a SELECT command is issued. The SNAPSHOT browser will use a default prefetch size of 5000 with no limit on the number of rows returned.
+By default, the AS JDBC driver will use an ActiveSpaces SNAPSHOT browser for retrieving data from a space/table when a SELECT
+command is issued. The SNAPSHOT browser will use a default prefetch size of 5000 with no limit on the number of rows returned.
 
 To limit the number of rows returned for a SELECT command, Statement.setMaxRows() should be invoked prior to issuing a SELECT command.
 
@@ -383,8 +483,11 @@ To change the prefetch size used for the SELECT command or to switch from using 
 
 When the fetch size is set to 0 (zero), the JDBC driver will use its default prefetch size of 5000.
 
-When the fetch size is set to > 0, the SNAPSHOT browser used by the SELECT command will use the specified fetch size as its prefetch setting.
+When the fetch size is set to > 0, the SNAPSHOT browser used by the SELECT command will used the specified fetch size as its prefetch setting.
 
 When the fetch size is set to -1, a CURRENT browser will be used by the SELECT command instead of a SNAPSHOT browser. A CURRENT browser does not prefetch data and retrieves a row of data each time next() is called on the ResultSet. A CURRENT browser also ignores any query limit setting, so the number of rows returned for the SELECT command will not be limited.
+
+
+
 
 
