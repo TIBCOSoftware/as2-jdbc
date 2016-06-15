@@ -1,5 +1,5 @@
 
-                TIBCO ActiveSpaces JDBC Driver               Last Updated: 2015-05-15
+                TIBCO ActiveSpaces JDBC Driver               Last Updated: 2016-06-15
 
 Overview
 --------
@@ -139,6 +139,8 @@ other applications.
     metaspace              Metaspace name (default: 'ms')
     discovery              Metaspace discovery URL - how the metaspace discovers its members (default: tibpgm://239.8.8.8:7888).
                            To specify several well-known TCP addresses for discovery use tcp://ip1:port1;ip2:port2
+    security_token         Path to a security token file. If specified, any discovery setting specified in the JDBC URL is ignored
+                           as AS will use the discovery setting from the token file.
     member_name            Unique name to use for the member connecting to the metaspace (default: auto-generated)
     listen                 URL to use for listening for incoming connections from new metaspace members on. 
                            Format: tcp://[interface[:port]]  (default:  0.0.0.0 for the interface and the first port available
@@ -146,7 +148,7 @@ other applications.
     remote_listen          The URL to use to listen for remote client connections (optional).
     remote_discovery       Discovery URL for connecting to a metaspace as a remote client. However, it is preferred that the
                            discovery URL property be used to specify the remote discovery URL as in
-                           ‘discovery=tcp://IP:port?remote=true’. (optional)
+                           Â‘discovery=tcp://IP:port?remote=trueÂ’. (optional)
     transport_thread_count The number of threads a metaspace member can use for handling remote invocation calls.
 
 Although ActiveSpaces only allows one metaspace connection by a single application, the JDBC driver will allow you to
@@ -234,7 +236,7 @@ The SQL keywords for each command are case insensitive. For example, the followi
 When strings are specified as values in an SQL command, strings should be enclosed in single quotes and not double quotes.
 For example:
 
-    INSERT INTO mytable (column1, column2) VALUES (‘George’, ‘Washington’)
+    INSERT INTO mytable (column1, column2) VALUES (Â‘GeorgeÂ’, Â‘WashingtonÂ’)
     
 When you need to use a table name or column name that matches an SQL keyword, you should enclose the name in escaped
 double-quotes to allow the ANTLR parser to differentiate between the keyword and the name. For example:
@@ -277,8 +279,8 @@ common SQL syntax variations.
 
 <key_type> is an ActiveSpaces extension to allow the setting of the type of index to generate.  For key fields, 
 ActiveSpaces by default will automatically generate an index of type HASH which speeds up queries where the filter 
-is an exact match (‘=’ operator). Regular indexes are created with a default index type of TREE. TREE indexes speed
-up queries where the filter is a range match (‘>’, ‘<’, ‘>=’, ‘<=’ operators). The <key_type> extension allows you
+is an exact match (Â‘=Â’ operator). Regular indexes are created with a default index type of TREE. TREE indexes speed
+up queries where the filter is a range match (Â‘>Â’, Â‘<Â’, Â‘>=Â’, Â‘<=Â’ operators). The <key_type> extension allows you
 to control which type of index is created to suit your particular needs. 
 
 Columns in a table are the equivalent of ActiveSpaces fields in a space. ActiveSpaces does not support all of the
@@ -371,7 +373,7 @@ Syntax:
     
 Example:
 
-    INSERT INTO mytable (name, city) VALUES (‘John Doe’, ‘Dallas’)
+    INSERT INTO mytable (name, city) VALUES (Â‘John DoeÂ’, Â‘DallasÂ’)
 
 
 UPDATE Command
@@ -383,7 +385,7 @@ Syntax:
     UPDATE  <table_name>  SET  ( <column_name> = <column_value>  [, <column_name> = <column_value> ]... )  WHERE  [ <where_condition> ]
 Example:
 
-    UPDATE mytable SET age=80 WHERE name = ‘George Washington’
+    UPDATE mytable SET age=80 WHERE name = Â‘George WashingtonÂ’
     
 Notes:
 If a <where_condition> is not specified, all entries in the table will be updated.
@@ -440,7 +442,7 @@ Where:
 Examples:
 
     SELECT * FROM mytable
-    SELECT * FROM mytable WHERE field1 = ‘success’
+    SELECT * FROM mytable WHERE field1 = Â‘successÂ’
     SELECT firstname, lastname FROM mytable
     SELECT firstname, lastname FROM table1, table2 (table2 is ignored, use qualified column names when there are multiple tables)
     SELECT table1.name, table2.address FROM table1, table2  (null values will be filled in for missing values if one table is larger than the other)
