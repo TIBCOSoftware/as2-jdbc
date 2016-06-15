@@ -1,5 +1,5 @@
 // -------------------------------------------------------------------
-//  Copyright (c) 2012-2015 TIBCO Software, Inc.
+//  Copyright (c) 2012-$Date: 2016-06-15 11:18:48 -0700 (Wed, 15 Jun 2016) $ TIBCO Software, Inc.
 //  All rights reserved.
 //  For more information, please contact:
 //  TIBCO Software Inc., Palo Alto, California, USA
@@ -94,7 +94,15 @@ public class ASConnection extends AbstractConnection implements Connection
 
             // create a metaspace connection based upon the given properties
             MemberDef memberDef = MemberDef.create();
-            memberDef.setDiscovery(info.getProperty("discovery", "tibpgm"));
+            // check for a security token file first before setting
+            // the discovery URL. If a security file is used, AS uses
+            // the discovery URL in the security file and ignores the
+            // discovery setting from the MemberDef object
+            String security_token = info.getProperty("security_token", "");
+            if (security_token != null && !security_token.isEmpty())
+            	memberDef.setSecurityTokenFile(security_token);
+            else
+                memberDef.setDiscovery(info.getProperty("discovery", "tibpgm"));
             memberDef.setListen(info.getProperty("listen", "tcp"));
             memberDef.setRemoteListen(info.getProperty("remote_listen", ""));
             memberDef.setRemoteDiscovery(info.getProperty("remote_discovery", ""));
