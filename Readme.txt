@@ -1,5 +1,5 @@
 
-                TIBCO ActiveSpaces JDBC Driver               Last Updated: 2016-06-15
+                TIBCO ActiveSpaces JDBC Driver               Last Updated: 2016-06-29
 
 Overview
 --------
@@ -151,13 +151,16 @@ other applications.
                            discovery=tcp://IP:port?remote=true. (optional)
     transport_thread_count The number of threads a metaspace member can use for handling remote invocation calls.
 
+If a security token file has been specified, the following additional properties can also be specified:
+
+    Property                  Description
+    ---------                 ------------
+    authentication_domain     The user login domain
+    authentication_username   The user login name
+    authentication_password   The user login password.
+
 Although ActiveSpaces only allows one metaspace connection by a single application, the JDBC driver will allow you to
 use multiple Connection objects to the same metaspace within a single application.
-
-Note: When security is integrated with the ActiveSpaces JDBC Driver, properties for the user name and password can be added
-to the supported properties. For example:
-    jdbc:tibco:as:mymetaspace;discovery=tibpgm://6789;user=yourUser;password=yourPassword
-This is similar to how user names and passwords are specified in the Microsoft SQL Server JDBC URL.
 
 
 ANTLR Grammar
