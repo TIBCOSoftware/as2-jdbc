@@ -1,5 +1,5 @@
 // -------------------------------------------------------------------
-//  Copyright (c) 2012-$Date: 2016-06-15 11:18:48 -0700 (Wed, 15 Jun 2016) $ TIBCO Software, Inc.
+//  Copyright (c) 2012-$Date: 2016-06-29 06:20:04 -0700 (Wed, 29 Jun 2016) $ TIBCO Software, Inc.
 //  All rights reserved.
 //  For more information, please contact:
 //  TIBCO Software Inc., Palo Alto, California, USA
@@ -100,7 +100,28 @@ public class ASConnection extends AbstractConnection implements Connection
             // discovery setting from the MemberDef object
             String security_token = info.getProperty("security_token", "");
             if (security_token != null && !security_token.isEmpty())
+            {
             	memberDef.setSecurityTokenFile(security_token);
+                if(info.getProperty("identity_password") != null)
+                    memberDef.setIdentityPassword((info.getProperty("identity_password").toCharArray()));
+
+                String authentication_domain = info.getProperty("authentication_domain", null);
+                String authentication_username = info.getProperty("authentication_username", null);
+                String authentication_keyfile = info.getProperty("authentication_keyfile", null);
+                String authentication_password = info.getProperty("authentication_password", null);
+                if (authentication_username != null && authentication_password != null)
+                	memberDef.setAuthenticationCallback(new SimpleAuthenticate(authentication_domain, authentication_username, authentication_password));
+                if (authentication_keyfile != null && authentication_password != null)
+                	memberDef.setAuthenticationCallback(new SimpleAuthenticate(authentication_keyfile, authentication_password));
+                if (authentication_domain != null && authentication_username == null)
+                	throw new ASException(ASStatus.INVALID_ARG, "Domain specified but missing username.");
+                if (authentication_username != null && authentication_password == null)
+                	throw new ASException(ASStatus.INVALID_ARG, "User name specified but missing password.");
+                if (authentication_keyfile != null && authentication_password == null)
+                	throw new ASException(ASStatus.INVALID_ARG, "Key file specified but password missing.");
+                if (authentication_password != null && authentication_username == null && authentication_keyfile == null)
+                	throw new ASException(ASStatus.INVALID_ARG, "Password specified but missing username or key file.");
+            }
             else
                 memberDef.setDiscovery(info.getProperty("discovery", "tibpgm"));
             memberDef.setListen(info.getProperty("listen", "tcp"));
